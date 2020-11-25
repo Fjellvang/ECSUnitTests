@@ -41,11 +41,25 @@ struct ComponentInstance {
 
 class EntityMap {
 public:
-	Entity getEntity(ComponentInstance inst) {
-		throw "ERROR";
+	Entity getEntity(ComponentInstance inst) const {
+		return instanceToEntity.at(inst.instanceId);
 	}
-	ComponentInstance getInstance(Entity e) {
-		throw "ERROR";
+	ComponentInstance getInstance(Entity e) const {
+		return entityToComponent.at(e);
+	}
+
+	void add(Entity e, ComponentInstance inst) {
+		entityToComponent.insert({ e, inst });
+		instanceToEntity.at(inst.instanceId) = e;
+	}
+	void update(Entity e, ComponentInstance inst) {
+		instanceToEntity.at(inst.instanceId) = e;
+		entityToComponent.at(e) = inst;
+	}
+	// this only removes the entity to instance id.
+	// leaving instance to entity, if instance is attempted to be access later it will be undefined...
+	void remove(Entity e) {
+		entityToComponent.erase(e);
 	}
 private:
 	std::unordered_map<Entity, ComponentInstance> entityToComponent;
@@ -87,39 +101,33 @@ public:
 		ComponentInstance inst{ componentData.size };
 		componentData.data->at(componentData.size) = c;
 		componentData.size++;
-		entityMap[e] = inst;
+		entityMap.add(e, inst);
 		return inst;
 	}
 
 	TComponent * getComponent(Entity e) const {
-		auto it = entityMap.find(e);
-		if (it == entityMap.end())
-		{
-			return nullptr;
-		}
-		auto index = (it->second).instanceId;
+		ComponentInstance inst = entityMap.getInstance(e);
+		unsigned int index = inst.instanceId;
 		return &componentData.data->at(index);
 	}
 
 	void removeComponent(Entity e) {
-		auto it = entityMap.find(e);
-		if (it == entityMap.end())
-		{
-			return;
-		}
-		auto index = (it->second).instanceId;
+		unsigned int index = entityMap.getInstance(e).instanceId;
 		unsigned int lastIndex = componentData.size;
 		TComponent cmp = componentData.data->at(lastIndex);
-
 		componentData.data->at(index) = cmp;
 		// Now i need cmp to entity, to reshuffle.
+		ComponentInstance inst{ lastIndex };
+		Entity e = entityMap.instanceToEntity(inst);
+		inst.instanceId = index;
 
+		entityMap.update(e, inst);
 	}
 
 
 private:
-	//TODO: Figure out why i cannot used unordered_map??/
-	std::unordered_map<Entity, ComponentInstance> entityMap; // map from entity to position in array.
+	EntityMap entityMap;
+	//std::unordered_map<Entity, ComponentInstance> entityMap; // map from entity to position in array.
 	ComponentData<TComponent> componentData;
 };
 
