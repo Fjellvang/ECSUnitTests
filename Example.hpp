@@ -113,15 +113,20 @@ public:
 
 	void removeComponent(Entity e) {
 		unsigned int index = entityMap.getInstance(e).instanceId;
-		unsigned int lastIndex = componentData.size;
+		unsigned int lastIndex = componentData.size-1;
+		componentData.size--;
+		entityMap.remove(e);
+		if (lastIndex == 1 || lastIndex == index)
+		{
+			return;
+		}
 		TComponent cmp = componentData.data->at(lastIndex);
 		componentData.data->at(index) = cmp;
 		// Now i need cmp to entity, to reshuffle.
 		ComponentInstance inst{ lastIndex };
-		Entity e = entityMap.instanceToEntity(inst);
+		Entity entity = entityMap.getEntity(inst);
 		inst.instanceId = index;
-
-		entityMap.update(e, inst);
+		entityMap.update(entity, inst);
 	}
 
 
