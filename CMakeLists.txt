@@ -19,14 +19,15 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON) #nice to have siger tuben
 enable_testing()
 
 add_subdirectory("googletest")
+add_subdirectory("ECS")
 
 set(Headers
 	Example.hpp
-)
+	"ECS/Entity.hpp" "ECS/EntityManager.hpp")
 
 set(Sources
 	Example.cpp
-)
+	"ECS/Entity.cpp")
 
 add_library(${This} STATIC ${Sources} ${Headers})
 
