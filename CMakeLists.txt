@@ -1,7 +1,7 @@
 ﻿# CMakeList.txt : Top-level CMake project file, do global configuration
 # and include sub-projects here.
 #
-cmake_minimum_required (VERSION 3.8)
+cmake_minimum_required (VERSION 3.19.2)
 
 set(This Example) # Variable set from youyube vid
 
@@ -9,7 +9,7 @@ set(This Example) # Variable set from youyube vid
 project (${This})
 
 # Include sub-projects.
-#add_subdirectory ("CMakeECS")
+add_subdirectory ("CMakeECS")
 #add_subdirectory (${This})
 
 set(CMAKE_C_STANDARD 99) # set c standard
@@ -20,6 +20,7 @@ enable_testing()
 
 add_subdirectory("googletest")
 add_subdirectory("ECS")
+add_subdirectory(test)
 
 set(Headers
 	Example.hpp
@@ -31,5 +32,4 @@ set(Sources
 
 add_library(${This} STATIC ${Sources} ${Headers})
 
-add_subdirectory("test")
 
