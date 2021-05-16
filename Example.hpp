@@ -8,10 +8,6 @@
 #include "ECS/EntityManager.hpp"
 
 
-struct ComponentBase {
-	//Entity * entity; //TODO: not sure we want to keep this. Evauluate
-};
-
 
 struct TestComponent {
 	int id;
