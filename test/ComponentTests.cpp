@@ -25,3 +25,9 @@ TEST_F(componentBaseTests, componentFamilyIncrements) {
 	SecondComponentTest c2;
 	ASSERT_EQ(c.familyId() + 1, c2.familyId());
 }
+TEST_F(componentBaseTests, componentStartsAtZeroTemplate) {
+	ASSERT_EQ(0, GetComponentFamily<ComponentTest>());
+}
+TEST_F(componentBaseTests, componentFamilyIncrementsTemplate) {
+	ASSERT_EQ(GetComponentFamily<ComponentTest>() + 1, GetComponentFamily<SecondComponentTest>());
+}

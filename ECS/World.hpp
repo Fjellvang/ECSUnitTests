@@ -1,6 +1,9 @@
 #pragma once
 #include <memory>
+#include <vector>
 #include "EntityManager.hpp"
+#include "ComponentManager.hpp"
+#include "ComponentBase.hpp"
 
 class World {
 public:
@@ -24,12 +27,35 @@ public:
     //void unpack(Entity e, ComponentHandle<ComponentType>& a, ComponentHandle<Args> & ... args);
 
     //// Add a component to an entity
-    //template<typename ComponentType>
-    //void addComponent(Entity& e, ComponentType&& c);
+    template<typename ComponentType>
+    void addComponent(Entity& e, ComponentType&& c) {
+        int index = GetComponentFamily<ComponentType>();
+
+        //TODO: Seperate into own method?
+        if (index > componentManagers.size())
+        {
+            componentManagers.resize(index + 1);
+        }
+        if (!componentManagers[index])
+        {
+            componentManagers[index] == std::make_unique<ComponentManager<ComponentType>>();
+        }
+        ComponentManager<ComponentType> manager = static_cast<ComponentManager<ComponentType>*>(componentManagers.at(index));
+
+        manager->.addComponent(e, c);
+    }
 
     //// Remove a component from an entity
     //template<typename ComponentType>
     //void removeComponent(Entity& e);
+
+    template<typename ComponentType>
+    ComponentType GetComponent(Entity e) const {
+        int index = GetComponentFamily<ComponentType>();
+        auto cmp = componentManagers.at(index);
+        return static_cast<ComponentType>(cmp);
+    }
 private:
 	std::unique_ptr<EntityManager> entityManager;
+    std::vector<unique_ptr<BaseComponentManager>> componentManagers;
 };

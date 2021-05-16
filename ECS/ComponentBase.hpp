@@ -1,4 +1,5 @@
 #pragma once
+#include <type_traits>
 
 struct ComponentCounter {
 	static int counter;
@@ -11,3 +12,8 @@ struct ComponentBase {
 		return id;
 	}
 };
+
+template <typename C>
+static int GetComponentFamily() {
+	return ComponentBase<typename std::remove_const<C>::type>::familyId();
+}
