@@ -30,6 +30,6 @@ set(Sources
 	Example.cpp
 	"ECS/Entity.cpp")
 
-add_library(${This} STATIC ${Sources} ${Headers} "ECS/EntityMap.hpp" "ECS/ComponentData.hpp" "ECS/ComponentManager.hpp" "ECS/Statics.hpp" "ECS/World.hpp" "ECS/ComponentBase.hpp")
+add_library(${This} STATIC ${Sources} ${Headers} "ECS/EntityMap.hpp" "ECS/ComponentData.hpp" "ECS/ComponentManager.hpp" "ECS/Statics.hpp" "ECS/World.hpp" "ECS/ComponentBase.hpp" "ECS/ECS.hpp")
 
 

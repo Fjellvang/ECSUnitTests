@@ -29,20 +29,20 @@ public:
     //// Add a component to an entity
     template<typename ComponentType>
     void addComponent(Entity& e, ComponentType&& c) {
-        int index = GetComponentFamily<ComponentType>();
+        unsigned int index = GetComponentFamily<ComponentType>();
 
         //TODO: Seperate into own method?
-        if (index > componentManagers.size())
+        if (index >= componentManagers.size())
         {
             componentManagers.resize(index + 1);
         }
         if (!componentManagers[index])
         {
-            componentManagers[index] == std::make_unique<ComponentManager<ComponentType>>();
+            componentManagers[index] = std::make_unique<ComponentManager<ComponentType>>();
         }
-        ComponentManager<ComponentType> manager = static_cast<ComponentManager<ComponentType>*>(componentManagers.at(index));
+        ComponentManager<ComponentType>* manager = static_cast<ComponentManager<ComponentType> *>(componentManagers[index].get());
 
-        manager->.addComponent(e, c);
+        manager->addComponent(e, c);
     }
 
     //// Remove a component from an entity
@@ -57,5 +57,5 @@ public:
     }
 private:
 	std::unique_ptr<EntityManager> entityManager;
-    std::vector<unique_ptr<BaseComponentManager>> componentManagers;
+    std::vector<std::unique_ptr<BaseComponentManager>> componentManagers;
 };

@@ -1,7 +1,11 @@
 #include <gtest/gtest.h>
 #include <memory>
 #include "../Example.hpp"
-#include "../ECS/Entity.hpp"
+//#include "../ECS/Entity.hpp"
+#include "../ECS/ComponentManager.hpp"
+//#include "../ECS/Entity.hpp"
+//#include "../ECS/EntityManager.hpp"
+
 
 //struct TestComponent{ };
 class componentManagerTests : public ::testing::Test {

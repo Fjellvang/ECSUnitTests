@@ -1,7 +1,8 @@
 #include <gtest/gtest.h>
 #include <memory>
 #include "../Example.hpp"
-#include "../ECS/Entity.hpp"
+
+#include "../ECS/EntityManager.hpp"
 
 class entityManagerTests : public ::testing::Test {
 protected:

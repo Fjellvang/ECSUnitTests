@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include <memory>
 #include "../Example.hpp"
-#include "../ECS/ComponentBase.hpp"
+#include "../ECS/World.hpp"
 
 class componentBaseTests : public ::testing::Test {
 protected:
@@ -30,4 +30,24 @@ TEST_F(componentBaseTests, componentStartsAtZeroTemplate) {
 }
 TEST_F(componentBaseTests, componentFamilyIncrementsTemplate) {
 	ASSERT_EQ(GetComponentFamily<ComponentTest>() + 1, GetComponentFamily<SecondComponentTest>());
+}
+
+class worldTests : public ::testing::Test {
+protected:
+	void SetUp() override {
+		world = std::make_unique<World>();
+	}
+	void TearDown() override
+	{
+		world.release();
+	}
+
+
+	std::unique_ptr<World> world;
+};
+
+
+TEST_F(worldTests, addComponentNoThrow) {
+	Entity e{ 0 };
+	ASSERT_NO_THROW(world->addComponent(e, ComponentTest()));
 }
