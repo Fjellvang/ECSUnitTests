@@ -15,6 +15,10 @@ protected:
 
 struct ComponentTest : public ComponentBase<ComponentTest> {};
 struct SecondComponentTest : public ComponentBase<SecondComponentTest> {};
+struct TransformComponent : public ComponentBase<TransformComponent> {
+	TransformComponent(int x) : x(x) {};
+	int x;
+};
 
 TEST_F(componentBaseTests, componentStartsAtZero) {
 	ComponentTest c;
@@ -51,3 +55,15 @@ TEST_F(worldTests, addComponentNoThrow) {
 	Entity e{ 0 };
 	ASSERT_NO_THROW(world->addComponent(e, ComponentTest()));
 }
+TEST_F(worldTests, addComponentGetComponent) {
+	Entity e{ 0 };
+	TransformComponent comp { 2 };
+	ASSERT_NO_THROW(world->addComponent(e, TransformComponent{ 2 }));
+
+	TransformComponent comp2 = * (world->getComponent<TransformComponent>(e));
+
+	ASSERT_EQ(comp.x, comp2.x);
+	//ASSERT_EQ(comp.y, comp2.y);
+	//ASSERT_EQ(comp.z, comp2.z);
+}
+

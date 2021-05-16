@@ -5,6 +5,15 @@
 #include "../ECS/ComponentManager.hpp"
 //#include "../ECS/Entity.hpp"
 //#include "../ECS/EntityManager.hpp"
+//#include "../ECS/ComponentBase.hpp"
+
+
+
+struct TestComponent //: ComponentBase<TestComponent>{
+{
+	//TestComponent(int id) : id{ id } {}
+int id;
+};
 
 
 //struct TestComponent{ };

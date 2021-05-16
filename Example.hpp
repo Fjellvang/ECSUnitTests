@@ -10,7 +10,4 @@
 
 
 
-struct TestComponent {
-	int id;
-};
 

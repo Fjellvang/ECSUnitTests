@@ -29,18 +29,10 @@ public:
     //// Add a component to an entity
     template<typename ComponentType>
     void addComponent(Entity& e, ComponentType&& c) {
-        unsigned int index = GetComponentFamily<ComponentType>();
 
         //TODO: Seperate into own method?
-        if (index >= componentManagers.size())
-        {
-            componentManagers.resize(index + 1);
-        }
-        if (!componentManagers[index])
-        {
-            componentManagers[index] = std::make_unique<ComponentManager<ComponentType>>();
-        }
-        ComponentManager<ComponentType>* manager = static_cast<ComponentManager<ComponentType> *>(componentManagers[index].get());
+        auto manager = getComponentManager<ComponentType>();
+        //ComponentManager<ComponentType>* manager = this->getComponentManager<ComponentType>();
 
         manager->addComponent(e, c);
     }
@@ -50,12 +42,29 @@ public:
     //void removeComponent(Entity& e);
 
     template<typename ComponentType>
-    ComponentType GetComponent(Entity e) const {
-        int index = GetComponentFamily<ComponentType>();
-        auto cmp = componentManagers.at(index);
-        return static_cast<ComponentType>(cmp);
+    ComponentType * getComponent(Entity e) {
+
+        auto manager = getComponentManager<ComponentType>();
+        //auto manager = this->getComponentManager<ComponentType>();
+
+        return manager->getComponent(e);
     }
-private:
+//private:
 	std::unique_ptr<EntityManager> entityManager;
     std::vector<std::unique_ptr<BaseComponentManager>> componentManagers;
+
+    template<typename ComponentType>
+    ComponentManager<ComponentType> * getComponentManager() {
+        int index = GetComponentFamily<ComponentType>();
+        if (index >= componentManagers.size())
+        {
+            componentManagers.resize(index + 1);
+        }
+        if (!componentManagers.at(index))
+        {
+            componentManagers.at(index) = std::make_unique<ComponentManager<ComponentType>>();
+        }
+        ComponentManager<ComponentType>* manager = static_cast<ComponentManager<ComponentType> *>(componentManagers.at(index).get());
+        return manager;
+    }
 };
