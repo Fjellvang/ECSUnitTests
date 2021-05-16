@@ -1,5 +1,7 @@
 #pragma once
 #include "Entity.hpp"
+#include <array>
+#include "Statics.hpp"
 
 struct ComponentInstance {
 	unsigned int instanceId;

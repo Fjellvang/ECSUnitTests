@@ -1,7 +1,7 @@
 #pragma once
 #include <array>
+#include "Statics.hpp"
 
-const int MAX_NUMBER_OF_COMPONENTS = 1024;
 
 template <typename TComponent>
 struct ComponentData {

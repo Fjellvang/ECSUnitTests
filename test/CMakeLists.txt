@@ -5,7 +5,7 @@ set(This ExampleTests) # Variable set from youyube vid
 
 set(Sources
 	ExampleTests.cpp
-)
+ "EntityManagerTests.cpp")
 
 add_executable(${This} ${Sources})
 target_link_libraries(${This} PUBLIC 
